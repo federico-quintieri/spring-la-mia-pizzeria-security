@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/pizze")
@@ -35,6 +36,15 @@ public class PizzaController {
         model.addAttribute("sizePizze", this.pizze.size());
 
         return "pizze/show";
+    }
+
+    @GetMapping("/searchByNome")
+    public String StringByTitle(@RequestParam(name = "nome") String nome, Model model) {
+
+        List<Pizza> pizze = repository.findByNomeContaining(nome);
+        model.addAttribute("pizze", pizze);
+
+        return "pizze/index";
     }
 
 }
