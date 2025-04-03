@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Da inserire frammengo meta tags -->
+     <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
+    <title>Pizze</title>
+  </head>
+  <body>
+    <!-- Da inserire frammento navbar -->
+
+    <div class="container">
+      <h1>Elenco Pizze</h1>
+      <section class="row">
+        <div class="col-12"></div>
+        <table class="table" th:if="${pizze.size() > 0}">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Descrizione</th>
+              <th>Prezzo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="pizza : ${pizze}" th:object="${pizza}">
+              <td>[[*{nome}]]</td>
+              <td>[[*{descrizione}]]</td>
+              <td>[[*{prezzo}]]</td>
+            </tr>
+          </tbody>
+        </table>
+        <p
+          th:text="${Pizze non disponibili al momento...}"
+          th:unless="${pizze.size() > 0}"
+        ></p>
+      </section>
+    </div>
+    <!-- Da inserire frammento script risorse -->
+     <div th:replace="~{fragments/resources :: bodyScripts}"></div>
+  </body>
+</html>
