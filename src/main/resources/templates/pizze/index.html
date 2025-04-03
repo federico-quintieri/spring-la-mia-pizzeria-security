@@ -9,6 +9,8 @@
     <!-- Da inserire frammento navbar -->
     <div th:replace="~{fragments/navbar :: NavBar}"></div>
 
+    <div><a th:href="@{/pizze/create}">Crea nuova pizza</a></div>
+
     <div class="container">
       <h1>Elenco Pizze</h1>
       <section class="row">
@@ -30,7 +32,11 @@
               <td>[[*{descrizione}]]</td>
               <td>[[*{prezzo}]]</td>
               <td>
-                <a th:href="@{/pizze/{id}(id=${pizza.id})}" class="btn btn-outline btn-info">Clicca qui</a>
+                <a
+                  th:href="@{/pizze/{id}(id=${pizza.id})}"
+                  class="btn btn-outline btn-info"
+                  >Clicca qui</a
+                >
               </td>
             </tr>
           </tbody>

@@ -35,7 +35,6 @@ public class Pizza {
     private String imageurl;
 
     // Genero colonna prezzo BigDecimal
-    @NotBlank
     @Min(value = 0, message = "Prezzo minimo parte da zero")
     private BigDecimal prezzo;
 

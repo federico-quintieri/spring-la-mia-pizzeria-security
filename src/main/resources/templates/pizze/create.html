@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Da inserire frammengo meta tags -->
+    <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
+    <title>Crea Pizza</title>
+  </head>
+  <body>
+    <!-- Da inserire frammento navbar -->
+    <div th:replace="~{fragments/navbar :: NavBar}"></div>
+
+    <!-- Creo form per inserire pizza -->
+    <form
+      id="pizza-form"
+      th:action="@{/pizze/create}"
+      th:object="${pizza}"
+      method="post"
+      class="container p-4 shadow-lg rounded bg-light mt-5"
+    >
+      <h2 class="text-center mb-4 tetx-center">Crea una nuova pizza</h2>
+
+      <!-- Nome -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" for="nome">Nome pizza</label>
+        <input
+          type="text"
+          id="nome"
+          th:field="*{nome}"
+          class="form-control"
+          placeholder="Inserisci il nome della pizza"
+          required
+        />
+        <div class="mb-3" th:if="${#fields.hasErrors('nome')}">
+          <ul class="alert alert-danger ps-5">
+            <li
+              th:each="error : ${#fields.allErrors()}"
+              th:text="${error}"
+            ></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Prezzo -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" for="prezzo">Prezzo (€)</label>
+        <input
+          type="number"
+          id="prezzo"
+          th:field="*{prezzo}"
+          class="form-control"
+          placeholder="Inserisci il prezzo"
+          step="0.01"
+          min="0"
+          required
+        />
+        <div class="mb-3" th:if="${#fields.hasErrors('prezzo')}">
+          <ul class="alert alert-danger ps-5">
+            <li
+              th:each="error : ${#fields.allErrors()}"
+              th:text="${error}"
+            ></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Descrizione -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" for="descrizione"
+          >Descrizione pizza</label
+        >
+        <textarea
+          id="descrizione"
+          th:field="*{descrizione}"
+          class="form-control"
+          placeholder="Inserisci la descrizione della pizza"
+          rows="3"
+          required
+        ></textarea>
+        <div class="mb-3" th:if="${#fields.hasErrors('descrizione')}">
+          <ul class="alert alert-danger ps-5">
+            <li
+              th:each="error : ${#fields.allErrors()}"
+              th:text="${error}"
+            ></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- URL Immagine -->
+      <div class="mb-3">
+        <label class="form-label fw-bold" for="imageurl">URL immagine</label>
+        <input
+          type="text"
+          id="imageurl"
+          th:field="*{imageurl}"
+          class="form-control"
+          placeholder="Inserisci l'URL dell'immagine"
+        />
+        <div class="mb-3" th:if="${#fields.hasErrors('imageurl')}">
+          <ul class="alert alert-danger ps-5">
+            <li
+              th:each="error : ${#fields.allErrors()}"
+              th:text="${error}"
+            ></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Pulsanti -->
+      <div class="mb-3 d-flex justify-content-center gap-3">
+        <input type="submit" class="btn btn-success" value="Crea nuova pizza" />
+        <input type="reset" class="btn btn-secondary" value="Resetta i campi" />
+      </div>
+    </form>
+
+    <!-- Da inserire frammento script risorse -->
+    <div th:replace="~{fragments/resources :: bodyScripts}"></div>
+  </body>
+</html>
