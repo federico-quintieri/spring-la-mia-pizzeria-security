@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/pizze")
 public class PizzaController {
 
+    private List<Pizza> pizze;
+
     @Autowired
     private PizzaRepository repository;
 
     @GetMapping
     public String index(Model model) {
-        List<Pizza> pizze = repository.findAll();
+        List<Pizza> pizze = repository.findAll(); // Prendo le pizze dal DB
+        this.pizze = pizze; // Salvo nella mia istanza le pizze per poterne prendere la grandezza dopo
         model.addAttribute("pizze", pizze);
         return "pizze/index";
     }
@@ -29,6 +32,7 @@ public class PizzaController {
     public String show(@PathVariable("id") Integer id, Model model) {
         // Trovo solo la row in base all'id e la metto nell'attributo pizza
         model.addAttribute("pizza", repository.findById(id).get());
+        model.addAttribute("sizePizze", this.pizze.size());
 
         return "pizze/show";
     }

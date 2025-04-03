@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <!-- Da inserire frammengo meta tags -->
-     <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
+    <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
     <title>Pizze</title>
   </head>
   <body>
@@ -16,16 +16,22 @@
         <table class="table" th:if="${pizze.size() > 0}">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Nome</th>
               <th>Descrizione</th>
               <th>Prezzo</th>
+              <th>Dettagli</th>
             </tr>
           </thead>
           <tbody>
             <tr th:each="pizza : ${pizze}" th:object="${pizza}">
+              <td>[[*{id}]]</td>
               <td>[[*{nome}]]</td>
               <td>[[*{descrizione}]]</td>
               <td>[[*{prezzo}]]</td>
+              <td>
+                <a th:href="@{/pizze/{id}(id=${pizza.id})}" class="btn btn-outline btn-info">Clicca qui</a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -36,6 +42,6 @@
       </section>
     </div>
     <!-- Da inserire frammento script risorse -->
-     <div th:replace="~{fragments/resources :: bodyScripts}"></div>
+    <div th:replace="~{fragments/resources :: bodyScripts}"></div>
   </body>
 </html>
