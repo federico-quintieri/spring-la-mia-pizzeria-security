@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Da inserire frammengo meta tags -->
+    <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
+    <title>Home</title>
+  </head>
+  <body>
+    <!-- Da inserire frammento navbar -->
+    <div th:replace="~{fragments/navbar :: NavBar}"></div>
+
+    <!-- Da inserire frammento script risorse -->
+    <div th:replace="~{fragments/resources :: bodyScripts}"></div>
+  </body>
+</html>

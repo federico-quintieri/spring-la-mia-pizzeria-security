@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Da inserire frammengo meta tags -->
+    <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
+    <title>Pizza</title>
+  </head>
+  <body>
+    <!-- Da inserire frammento navbar -->
+    <div th:replace="~{fragments/navbar :: NavBar}"></div>
+
+    <div class="container mt-4">
+      <h1 class="text-center">Dettagli Pizza</h1>
+      <section class="row justify-content-center">
+        <div class="col-md-6 col-lg-4 card p-4 shadow-sm" th:object="${pizza}">
+          <h3 class="text-primary">[[*{nome}]]</h3>
+          <h4 class="text-success">€ [[*{prezzo}]]</h4>
+          <p class="text-muted">[[*{descrizione}]]</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- Da inserire frammento script risorse -->
+    <div th:replace="~{fragments/resources :: bodyScripts}"></div>
+  </body>
+</html>
