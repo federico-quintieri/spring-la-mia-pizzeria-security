@@ -23,7 +23,7 @@
             <a th:href="@{/pizze}" class="btn btn-outline btn-warning mx-2"
               >Lista</a
             >
-            <a th:if="${pizza.id < sizePizze}" th:href="@{/pizze/{id}(id=${pizza.id + 1})}" class="btn btn-outline btn-dark mx-2"
+            <a th:if="${pizza.id < sizePizze.size()}" th:href="@{/pizze/{id}(id=${pizza.id + 1})}" class="btn btn-outline btn-dark mx-2"
               >Prossima</a
             >
           </div>

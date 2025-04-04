@@ -21,15 +21,12 @@ import jakarta.validation.Valid;
 @RequestMapping("/pizze")
 public class PizzaController {
 
-    private List<Pizza> pizze;
-
     @Autowired
     private PizzaRepository repository;
 
     @GetMapping
     public String index(Model model) {
         List<Pizza> pizze = repository.findAll(); // Prendo le pizze dal DB
-        this.pizze = pizze; // Salvo nella mia istanza le pizze per poterne prendere la grandezza dopo
         model.addAttribute("pizze", pizze);
         return "pizze/index";
     }
@@ -38,7 +35,10 @@ public class PizzaController {
     public String show(@PathVariable("id") Integer id, Model model) {
         // Trovo solo la row in base all'id e la metto nell'attributo pizza
         model.addAttribute("pizza", repository.findById(id).get());
-        model.addAttribute("sizePizze", this.pizze.size());
+
+        // Faccio una attributo al model e gli passo tutte le pizze per la creazione dei
+        // pulsanti in base alla grandezza
+        model.addAttribute("sizePizze", repository.findAll());
 
         return "pizze/show";
     }
@@ -69,6 +69,29 @@ public class PizzaController {
         }
 
         // Salvo la nuova pizza
+        repository.save(formPizza);
+
+        return "redirect:/pizze";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        // Mi ritorna la pagina con un form riempito dai valori presi da una pizza dal
+        // db
+        model.addAttribute("pizza", repository.findById(id).get());
+
+        return "pizze/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
+
+        // Se le validazioni non sono andate a buon fine torna alla pagina del form
+        if (bindingResult.hasErrors()) {
+            return "pizze/edit";
+        }
+
+        // Aggiorna la pizza
         repository.save(formPizza);
 
         return "redirect:/pizze";
