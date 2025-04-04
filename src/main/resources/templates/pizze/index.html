@@ -23,16 +23,18 @@
         <table class="table" th:if="${pizze.size() > 0}">
           <thead>
             <tr>
-              <th>ID</th>
+              
               <th>Nome</th>
               <th>Descrizione</th>
               <th>Prezzo</th>
-              <th>Dettagli</th>
+              <th></th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             <tr th:each="pizza : ${pizze}" th:object="${pizza}">
-              <td>[[*{id}]]</td>
+              
               <td>[[*{nome}]]</td>
               <td>[[*{descrizione}]]</td>
               <td>[[*{prezzo}]]</td>
@@ -40,8 +42,23 @@
                 <a
                   th:href="@{/pizze/{id}(id=${pizza.id})}"
                   class="btn btn-outline btn-info"
-                  >Clicca qui</a
+                  >Info</a
                 >
+              </td>
+              <td>
+                <a
+                  th:href="@{/pizze/edit/{id}(id=${pizza.id})}"
+                  class="btn btn-outline btn-primary"
+                  >Edita</a
+                >
+              </td>
+              <td>
+                <form
+                  th:action="@{/pizze/delete/{id}(id=${pizza.id})}"
+                  method="post"
+                >
+                  <button type="submit" class="btn btn-danger">Cancella</button>
+                </form>
               </td>
             </tr>
           </tbody>
