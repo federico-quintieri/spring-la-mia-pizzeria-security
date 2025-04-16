@@ -2,6 +2,7 @@ package org.java.pizzeria.spring_la_mia_pizzeria_crud.controller;
 
 import java.util.List;
 
+import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Offerta;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,14 @@ public class PizzaController {
     public String delete(@PathVariable Integer id) {
         repository.deleteById(id);
         return "redirect:/pizze";
+    }
+
+    @GetMapping("/{id}/offerta")
+    public String offerta(@PathVariable Integer id, Model model) {
+        Offerta offerta = new Offerta();
+        offerta.setPizza(repository.findById(id).get());
+        model.addAttribute("offerta", offerta);
+        return "offerte/create";
     }
 
 }

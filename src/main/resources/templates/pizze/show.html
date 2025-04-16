@@ -17,14 +17,13 @@
           <h4 class="text-success">€ [[*{prezzo}]]</h4>
           <p class="text-muted">[[*{descrizione}]]</p>
           <div class="d-flex justify-content-center">
-            <a th:if="${pizza.id > 1}" th:href="@{/pizze/{id}(id=${pizza.id - 1})}" class="btn btn-outline btn-dark  mx-2"
-              >Precedente</a
-            >
             <a th:href="@{/pizze}" class="btn btn-outline btn-warning mx-2"
               >Lista</a
             >
-            <a th:if="${pizza.id < sizePizze.size()}" th:href="@{/pizze/{id}(id=${pizza.id + 1})}" class="btn btn-outline btn-dark mx-2"
-              >Prossima</a
+            <a
+              th:href="@{/pizze/{id}/offerta(id=${pizza.id})}"
+              class="btn btn-primary"
+              >Crea Offerta</a
             >
           </div>
         </div>

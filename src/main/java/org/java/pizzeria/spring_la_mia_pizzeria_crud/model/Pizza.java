@@ -1,11 +1,13 @@
 package org.java.pizzeria.spring_la_mia_pizzeria_crud.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -25,7 +27,7 @@ public class Pizza {
     private String nome;
 
     // Genero colonna descrizione
-    @NotBlank
+    @NotBlank(message = "Inserisci descrizione")
     @Size(min = 8, max = 500, message = "Descrizione deve essere di almeno 8 caratteri")
     private String descrizione;
 
@@ -37,6 +39,10 @@ public class Pizza {
     // Genero colonna prezzo BigDecimal
     @Min(value = 0, message = "Prezzo minimo parte da zero")
     private BigDecimal prezzo;
+
+    // Definisco relazione con 1 to n con Offerta
+    @OneToMany(mappedBy = "pizza")
+    private List<Offerta> offerte;
 
     // Getter e setter
     public Integer getId() {
