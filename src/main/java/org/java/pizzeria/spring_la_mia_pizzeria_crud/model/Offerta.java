@@ -11,7 +11,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "offerte")
@@ -35,7 +34,7 @@ public class Offerta {
     private LocalDate dataFineOfferta;
 
     @NotNull(message = "Nome offerta")
-    private String NomeOfferta;
+    private String nomeOfferta;
 
     public Integer getId() {
         return this.id;
@@ -70,11 +69,11 @@ public class Offerta {
     }
 
     public String getNomeOfferta() {
-        return this.NomeOfferta;
+        return this.nomeOfferta;
     }
 
     public void setNomeOfferta(String NomeOfferta) {
-        this.NomeOfferta = NomeOfferta;
+        this.nomeOfferta = NomeOfferta;
     }
 
 }
