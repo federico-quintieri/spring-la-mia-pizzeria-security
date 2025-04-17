@@ -1,6 +1,7 @@
 package org.java.pizzeria.spring_la_mia_pizzeria_crud.controller;
 
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Ingrediente;
+import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.IngredienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,16 @@ public class IngredienteController {
     public String index(Model model) {
         model.addAttribute("ingredienti", ingredienteRepository.findAll());
         return "ingredienti/index";
+    }
+
+    // Get per la show
+    @GetMapping("/dettagli/{id}")
+    public String show(@PathVariable Integer id, Model model) {
+
+        model.addAttribute("ingrediente", ingredienteRepository.findById(id).get());
+
+        return "/ingredienti/show";
+
     }
 
     // Una get per arrivare a form creazione ingrediente
@@ -79,8 +90,16 @@ public class IngredienteController {
     // Una post per inviare delete ingrediente
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
+        // Prima di cancellare un ingrediente, devo togliere questi ingrediente da tutti
+        // le pizze che ce l'hanno
 
-        ingredienteRepository.deleteById(id);
+        Ingrediente ingredienteDaCancellare = ingredienteRepository.findById(id).get();
+
+        for (Pizza linkedPizza : ingredienteDaCancellare.getPizze()) {
+            linkedPizza.getIngredienti().remove(ingredienteDaCancellare);
+        }
+
+        ingredienteRepository.delete(ingredienteDaCancellare);
         return "redirect:/ingredienti";
     }
 }

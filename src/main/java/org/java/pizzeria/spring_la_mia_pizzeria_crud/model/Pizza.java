@@ -52,6 +52,10 @@ public class Pizza {
     @JoinTable(name = "ingrediente_pizza", joinColumns = @JoinColumn(name = "pizza_id"), inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
     private List<Ingrediente> ingredienti;
 
+    public List<Ingrediente> getIngredienti() {
+        return this.ingredienti;
+    }
+
     // Getter e setter
     public List<Offerta> getOfferte() {
         return this.offerte;

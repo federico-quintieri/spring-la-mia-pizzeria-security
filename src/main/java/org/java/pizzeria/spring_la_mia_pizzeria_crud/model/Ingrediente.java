@@ -33,6 +33,11 @@ public class Ingrediente {
     private List<Pizza> pizze;
 
     // Getter and Setters
+
+    public List<Pizza> getPizze() {
+        return this.pizze;
+    }
+
     public Integer getId() {
         return this.id;
     }

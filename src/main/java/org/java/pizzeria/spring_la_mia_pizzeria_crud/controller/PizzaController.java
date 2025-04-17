@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Offerta;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Pizza;
+import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.IngredienteRepository;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.OffertaRepository;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class PizzaController {
     // libro
     @Autowired
     private OffertaRepository offertaRepository;
+
+    @Autowired
+    private IngredienteRepository ingredienteRepository;
 
     @GetMapping
     public String index(Model model) {
@@ -63,8 +67,10 @@ public class PizzaController {
     public String create(Model model) {
 
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredienti", ingredienteRepository.findAll());
+        model.addAttribute("edit", false); // Aggiungo attributo edit come falso
 
-        return "pizze/create";
+        return "pizze/create-or-edit";
     }
 
     @PostMapping("/create")
@@ -72,7 +78,7 @@ public class PizzaController {
 
         // Se le validazioni non sono andate a buon fine torna alla pagina del form
         if (bindingResult.hasErrors()) {
-            return "pizze/create";
+            return "pizze/create-or-edit";
         }
 
         // Salvo la nuova pizza
@@ -86,8 +92,10 @@ public class PizzaController {
         // Mi ritorna la pagina con un form riempito dai valori presi da una pizza dal
         // db
         model.addAttribute("pizza", repository.findById(id).get());
+        model.addAttribute("ingredienti", ingredienteRepository.findAll());
+        model.addAttribute("edit", true);
 
-        return "pizze/edit";
+        return "pizze/create-or-edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -95,7 +103,7 @@ public class PizzaController {
 
         // Se le validazioni non sono andate a buon fine torna alla pagina del form
         if (bindingResult.hasErrors()) {
-            return "pizze/edit";
+            return "pizze/create-or-edit";
         }
 
         // Aggiorna la pizza
@@ -106,7 +114,7 @@ public class PizzaController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        
+
         // Prendo la pizza in base all'id
         Pizza pizza = repository.findById(id).get();
 

@@ -24,21 +24,44 @@
             <tr>
               <th>Nome</th>
               <th>Descrizione</th>
-              <th class="text-center" colspan="2">Azioni</th>
+              <th>Numero Pizze</th>
+              <th></th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">
+            <tr
+              th:each="ingrediente : ${ingredienti}"
+              th:object="${ingrediente}"
+            >
               <td>[[*{nome}]]</td>
               <td>[[*{descrizione}]]</td>
-              <td class="text-center">
-                <a th:href="@{|/ingredienti/edit/${ingrediente.id}|}" class="btn btn-success btn-sm">
+              <td>[[*{pizze.size()}]]</td>
+              <td>
+                <a
+                  th:href="@{/ingredienti/dettagli/{id}(id = ${ingrediente.id})}"
+                  class="btn btn-primary"
+                  >Info</a
+                >
+              </td>
+              <td>
+                <a
+                  th:href="@{|/ingredienti/edit/${ingrediente.id}|}"
+                  class="btn btn-success btn-sm"
+                >
                   Modifica
                 </a>
               </td>
-              <td class="text-center">
-                <form th:action="@{|/ingredienti/delete/${ingrediente.id}|}" method="post" th:object="${ingrediente}">
-                  <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+              <td>
+                <form
+                  th:action="@{|/ingredienti/delete/${ingrediente.id}|}"
+                  method="post"
+                  th:object="${ingrediente}"
+                >
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    Elimina
+                  </button>
                 </form>
               </td>
             </tr>
