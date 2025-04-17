@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Da inserire frammento meta tags -->
+    <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
+    <title>Crea offerta</title>
+  </head>
+  <body>
+    <!-- Da inserire frammento navbar -->
+    <div th:replace="~{fragments/navbar :: NavBar}"></div>
+
+    <div class="container mt-5">
+      <h2 class="mb-4">
+        Crea una nuova offerta per la pizza:
+        <span class="text-primary" th:text="${offerta.pizza.nome}"></span>
+      </h2>
+
+      <form
+        th:action="${edit} ? @{|/offerte/edit/${offerta.id}|} : @{/offerte/create}"
+        method="post"
+        id="formOfferta"
+        th:object="${offerta}"
+      >
+        <!-- Campo nascosto per ID pizza -->
+        <input type="hidden" th:field="*{pizza.id}" />
+
+        <div class="mb-3">
+          <label for="nomeOfferta" class="form-label">Nome offerta</label>
+          <input
+            type="text"
+            th:field="*{nomeOfferta}"
+            id="nomeOfferta"
+            class="form-control"
+            placeholder="Inserisci il nome dell'offerta"
+          />
+        </div>
+
+        <div class="mb-3" th:if="${#fields.hasErrors('nomeOfferta')}">
+          <div class="alert alert-danger">
+            <ul class="mb-0 ps-4">
+              <li
+                th:each="error : ${#fields.errors('nomeOfferta')}"
+                th:text="${error}"
+              ></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="dataInizioOfferta" class="form-label"
+            >Data inizio offerta</label
+          >
+          <input
+            type="date"
+            th:field="*{dataInizioOfferta}"
+            id="dataInizioOfferta"
+            class="form-control"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('dataInizioOfferta')}"
+          >
+            <ul class="mb-0 ps-4">
+              <li
+                th:each="err : ${#fields.errors('dataInizioOfferta')}"
+                th:text="${err}"
+              ></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="dataFineOfferta" class="form-label"
+            >Data fine offerta</label
+          >
+          <input
+            type="date"
+            th:field="*{dataFineOfferta}"
+            id="dataFineOfferta"
+            class="form-control"
+          />
+          <div
+            class="text-danger"
+            th:if="${#fields.hasErrors('dataFineOfferta')}"
+          >
+            <ul class="mb-0 ps-4">
+              <li
+                th:each="err : ${#fields.errors('dataFineOfferta')}"
+                th:text="${err}"
+              ></li>
+            </ul>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+          <span th:text="${edit} ? 'Edita offerta' : 'Crea nuova offerta'"
+            >Crea nuova offerta</span
+          >
+        </button>
+      </form>
+    </div>
+
+    <!-- Da inserire frammento script risorse -->
+    <div th:replace="~{fragments/resources :: bodyScripts}"></div>
+  </body>
+</html>

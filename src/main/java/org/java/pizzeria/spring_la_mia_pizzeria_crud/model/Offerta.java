@@ -26,11 +26,11 @@ public class Offerta {
     private Pizza pizza;
 
     @NotNull(message = "Data inizio dell'offerta")
-    @FutureOrPresent(message = "La data inizio offerta non è nel passato")
+    @FutureOrPresent(message = "La data inizio offerta non può essere nel passato")
     private LocalDate dataInizioOfferta;
 
     @NotNull(message = "Data fine dell'offerta")
-    @FutureOrPresent(message = "La data fine offerta non è nel passato")
+    @FutureOrPresent(message = "La data fine offerta non può essere nel passato")
     private LocalDate dataFineOfferta;
 
     @NotNull(message = "Nome offerta")

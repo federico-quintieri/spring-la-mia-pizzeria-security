@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Offerta;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Pizza;
+import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.OffertaRepository;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,11 @@ public class PizzaController {
 
     @Autowired
     private PizzaRepository repository;
+
+    // Mi serve perchè le row di offerte devo cancellare alla cancellazione di un
+    // libro
+    @Autowired
+    private OffertaRepository offertaRepository;
 
     @GetMapping
     public String index(Model model) {
@@ -100,7 +106,16 @@ public class PizzaController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        repository.deleteById(id);
+        
+        // Prendo la pizza in base all'id
+        Pizza pizza = repository.findById(id).get();
+
+        // Ciclo tutte le offerte di UNA pizza e le cancello una per una
+        for (Offerta offertaToDelete : pizza.getOfferte()) {
+            offertaRepository.delete(offertaToDelete);
+        }
+        // Poi cancello la pizza
+        repository.delete(pizza);
         return "redirect:/pizze";
     }
 
@@ -109,7 +124,7 @@ public class PizzaController {
         Offerta offerta = new Offerta();
         offerta.setPizza(repository.findById(id).get());
         model.addAttribute("offerta", offerta);
-        return "offerte/create";
+        return "offerte/create-or-edit";
     }
 
 }

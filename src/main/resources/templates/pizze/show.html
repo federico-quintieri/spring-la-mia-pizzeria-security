@@ -29,7 +29,50 @@
         </div>
       </section>
     </div>
-
+    <div th:if="${pizza.getOfferte().size() > 0}">
+      <h2 class="text-center mt-4">
+        Offerte disponibili per la pizza [[${pizza.nome}]]
+      </h2>
+      <div class="table-responsive container mt-4">
+        <table
+          class="table table-striped table-hover table-bordered align-middle"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Nome offerta</th>
+              <th scope="col">Data inizio</th>
+              <th scope="col">Data fine</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="offerta : *{pizza.getOfferte}">
+              <td>[[${offerta.nomeOfferta}]]</td>
+              <td>[[${offerta.dataInizioOfferta}]]</td>
+              <td>[[${offerta.dataFineOfferta}]]</td>
+              <td class="text-center">
+                <a
+                  class="btn btn-success"
+                  th:href="@{/offerte/edit/{id}(id=${offerta.id})}"
+                  >Edita</a
+                >
+              </td>
+              <td class="text-center">
+                <form
+                  th:action="@{/offerte/delete/{id}(id=${offerta.id})}"
+                  method="post"
+                >
+                  <button class="btn btn-danger btn-sm" type="submit">
+                    Cancella
+                  </button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <!-- Da inserire frammento script risorse -->
     <div th:replace="~{fragments/resources :: bodyScripts}"></div>
   </body>
