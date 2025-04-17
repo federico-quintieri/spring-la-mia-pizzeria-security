@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Da inserire frammengo meta tags -->
+    <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
+    <title>Crea ingrediente</title>
+  </head>
+  <body>
+    <!-- Da inserire frammento navbar -->
+    <div th:replace="~{fragments/navbar :: NavBar}"></div>
+
+    <div class="container mt-5">
+      <h2
+        class="mb-4"
+        th:text="${edit} ? 'Mofica ingrediente' : 'Crea nuovo ingrediente'"
+      >
+        <span
+          class="text-primary"
+          th:if="${edit}"
+          th:text="${ingrediente.nome}"
+        ></span>
+      </h2>
+      <!-- Form che compila i campi dell'attributo ingrediente e poi lo manda con chiamata post ad un certo endpoint -->
+      <form
+        th:action="${edit} ? @{|/ingredienti/edit/${ingrediente.id}|} : @{/ingredienti/create}"
+        method="post"
+      >
+        <div class="mt-2">
+          <label for="nome" class="form-label">Nome ingrediente</label>
+          <input
+            type="text"
+            th:field="${ingrediente.nome}"
+            id="nome"
+            class="form-control"
+            placeholder="Inserisci il nome dell'ingrediente"
+          />
+          <!-- Visione errori -->
+          <div class="mb-3" th:if="${#fields.hasErrors('ingrediente.nome')}">
+            <div class="alert alert-danger">
+              <ul class="mb-0 ps-4">
+                <li
+                  th:each="error : ${#fields.errors('ingrediente.nome')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-2">
+          <label for="descrizione" class="form-label">Descrizione</label>
+          <textarea
+            id="descrizione"
+            th:field="${ingrediente.descrizione}"
+            class="form-control"
+          ></textarea>
+
+          <!-- Visione errori -->
+          <div
+            class="mb-3"
+            th:if="${#fields.hasErrors('ingrediente.descrizione')}"
+          >
+            <div class="alert alert-danger">
+              <ul class="mb-0 ps-4">
+                <li
+                  th:each="error : ${#fields.errors('ingrediente.descrizione')}"
+                  th:text="${error}"
+                ></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <button type="submit" class="btn btn-success">
+            <span
+              th:text="${edit} ? 'Edita ingrediente' : 'Crea nuovo ingrediente'"
+            ></span>
+          </button>
+          <a class="btn btn-secondary" th:href="@{/ingredienti}"
+            >Torna indietro</a
+          >
+        </div>
+      </form>
+    </div>
+    <!-- Da inserire frammento script risorse -->
+    <div th:replace="~{fragments/resources :: bodyScripts}"></div>
+  </body>
+</html>

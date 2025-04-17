@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Frammento meta e risorse -->
+    <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
+    <title>Lista ingredienti</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div th:replace="~{fragments/navbar :: NavBar}"></div>
+
+    <div class="container mt-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Ingredienti disponibili</h2>
+        <a th:href="@{/ingredienti/create}" class="btn btn-primary">
+          + Crea ingrediente
+        </a>
+      </div>
+
+      <!-- Tabella ingredienti -->
+      <div th:if="${ingredienti.size() > 0}">
+        <table class="table table-striped table-hover align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>Nome</th>
+              <th>Descrizione</th>
+              <th class="text-center" colspan="2">Azioni</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">
+              <td>[[*{nome}]]</td>
+              <td>[[*{descrizione}]]</td>
+              <td class="text-center">
+                <a th:href="@{|/ingredienti/edit/${ingrediente.id}|}" class="btn btn-success btn-sm">
+                  Modifica
+                </a>
+              </td>
+              <td class="text-center">
+                <form th:action="@{|/ingredienti/delete/${ingrediente.id}|}" method="post" th:object="${ingrediente}">
+                  <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div th:if="${ingredienti.size() == 0}" class="alert alert-info">
+        Nessun ingrediente disponibile.
+      </div>
+    </div>
+
+    <!-- Script -->
+    <div th:replace="~{fragments/resources :: bodyScripts}"></div>
+  </body>
+</html>
