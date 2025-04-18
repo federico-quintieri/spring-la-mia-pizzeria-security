@@ -16,6 +16,19 @@
           <h3 class="text-primary">[[*{nome}]]</h3>
           <h4 class="text-success">€ [[*{prezzo}]]</h4>
           <p class="text-muted">[[*{descrizione}]]</p>
+
+          <div th:if="*{ingredienti.size() > 0}">
+            <h5 class="mt-4">Ingredienti:</h5>
+            <ul>
+              <li th:each="ingrediente : *{ingredienti}" th:text="${ingrediente.nome}"></li>
+            </ul>
+          </div>
+          
+          <div th:unless="*{ingredienti.size() > 0}">
+            Non hai inserito gli ingredienti per questa pizza
+          </div>
+          
+
           <div class="d-flex justify-content-center">
             <a th:href="@{/pizze}" class="btn btn-outline btn-warning mx-2"
               >Lista</a

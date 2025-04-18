@@ -2,6 +2,7 @@ package org.java.pizzeria.spring_la_mia_pizzeria_crud.controller;
 
 import java.util.List;
 
+import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Ingrediente;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Offerta;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.IngredienteRepository;
@@ -78,8 +79,19 @@ public class PizzaController {
 
         // Se le validazioni non sono andate a buon fine torna alla pagina del form
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredienti", ingredienteRepository.findAll());
+            model.addAttribute("edit", false);
             return "pizze/create-or-edit";
         }
+
+        // Converti ID -> Oggetti Ingredienti
+        List<Ingrediente> ingredientiCompleti = formPizza.getIngredienti()
+                .stream()
+                .map(i -> ingredienteRepository.findById(i.getId()).orElse(null))
+                .filter(i -> i != null)
+                .toList();
+
+        formPizza.setIngredienti(ingredientiCompleti);
 
         // Salvo la nuova pizza
         repository.save(formPizza);
@@ -103,8 +115,18 @@ public class PizzaController {
 
         // Se le validazioni non sono andate a buon fine torna alla pagina del form
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredienti", ingredienteRepository.findAll());
+            model.addAttribute("edit", true);
             return "pizze/create-or-edit";
         }
+
+        List<Ingrediente> ingredientiCompleti = formPizza.getIngredienti()
+                .stream()
+                .map(i -> ingredienteRepository.findById(i.getId()).orElse(null))
+                .filter(i -> i != null)
+                .toList();
+
+        formPizza.setIngredienti(ingredientiCompleti);
 
         // Aggiorna la pizza
         repository.save(formPizza);

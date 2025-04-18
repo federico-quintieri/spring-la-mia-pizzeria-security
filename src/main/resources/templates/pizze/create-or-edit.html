@@ -85,6 +85,24 @@
           </ul>
         </div>
       </div>
+      <!-- Checkbox -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Ingredienti</label>
+        <div th:each="ingrediente : ${ingredienti}" class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            th:field="*{ingredienti}"
+            th:value="${ingrediente.id}"
+            th:id="'ingrediente-' + ${ingrediente.id}"
+          />
+          <label
+            class="form-check-label"
+            th:for="'ingrediente-' + ${ingrediente.id}"
+            th:text="${ingrediente.nome}"
+          ></label>
+        </div>
+      </div>
 
       <!-- URL Immagine -->
       <div class="mb-3">
