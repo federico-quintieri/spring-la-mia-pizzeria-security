@@ -1,7 +1,7 @@
 package org.java.pizzeria.spring_la_mia_pizzeria_crud.controller;
 
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Offerta;
-import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.OffertaRepository;
+import org.java.pizzeria.spring_la_mia_pizzeria_crud.service.OffertaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ import jakarta.validation.Valid;
 public class OffertaController {
 
     @Autowired
-    private OffertaRepository repository;
+    private OffertaService offertaService;
 
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("offerta") Offerta formOfferta, BindingResult bindingResult,
@@ -29,14 +29,14 @@ public class OffertaController {
             return "offerte/create-or-edit";
         }
 
-        repository.save(formOfferta);
+        offertaService.create(formOfferta);
 
         return "redirect:/pizze/" + formOfferta.getPizza().getId();
     }
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("offerta", repository.findById(id).get());
+        model.addAttribute("offerta", offertaService.findByIdOfferta(id).get());
         model.addAttribute("edit", true);
         return "offerte/create-or-edit";
     }
@@ -47,7 +47,7 @@ public class OffertaController {
         if (bindingResult.hasErrors()) {
             return "offerte/create-or-edit";
         }
-        repository.save(newOfferta);
+        offertaService.update(newOfferta);
         return "redirect:/pizze/" + newOfferta.getPizza().getId();
     }
 
@@ -56,9 +56,9 @@ public class OffertaController {
     public String delete(@PathVariable Integer id) {
 
         // Trovo offerta in base ad id
-        Offerta offertaToDelete = repository.findById(id).get();
+        Offerta offertaToDelete = offertaService.findByIdOfferta(id).get();
         // Cancello l'offerta selezionata in base ad id
-        repository.delete(offertaToDelete);
+        offertaService.delete(offertaToDelete);
 
         // Redirect alla pagina show della pizza relativa all'offerta cancellata
         return "redirect:/pizze/" + offertaToDelete.getPizza().getId();

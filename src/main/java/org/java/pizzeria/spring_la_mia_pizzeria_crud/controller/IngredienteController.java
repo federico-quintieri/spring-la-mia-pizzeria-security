@@ -3,6 +3,7 @@ package org.java.pizzeria.spring_la_mia_pizzeria_crud.controller;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Ingrediente;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.IngredienteRepository;
+import org.java.pizzeria.spring_la_mia_pizzeria_crud.service.IngredienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,19 +15,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 
 @Controller
 @RequestMapping("/ingredienti")
 public class IngredienteController {
 
     @Autowired
-    private IngredienteRepository ingredienteRepository;
+    private IngredienteService ingredienteService;
 
     // Index per lista di ingredienti
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("ingredienti", ingredienteRepository.findAll());
+        model.addAttribute("ingredienti", ingredienteService.findAllIngredients());
         return "ingredienti/index";
     }
 
@@ -34,7 +34,7 @@ public class IngredienteController {
     @GetMapping("/dettagli/{id}")
     public String show(@PathVariable Integer id, Model model) {
 
-        model.addAttribute("ingrediente", ingredienteRepository.findById(id).get());
+        model.addAttribute("ingrediente", ingredienteService.findByIdIngredient(id).get());
 
         return "/ingredienti/show";
 
@@ -57,7 +57,7 @@ public class IngredienteController {
         }
 
         // Salvo nuovo ingrediente (row) se non ci sono errori di compilazione del form
-        ingredienteRepository.save(newIngrediente);
+        ingredienteService.createIngredient(newIngrediente);
 
         // Reindirizza ad URL ingredienti non view
         return "redirect:/ingredienti";
@@ -66,7 +66,7 @@ public class IngredienteController {
     // Una get per editare form modifica ingrediente
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("ingrediente", ingredienteRepository.findById(id).get());
+        model.addAttribute("ingrediente", ingredienteService.findByIdIngredient(id).get());
 
         model.addAttribute("edit", true);
 
@@ -82,7 +82,7 @@ public class IngredienteController {
             return "ingredienti/create-or-edit";
         }
 
-        ingredienteRepository.save(newIngrediente);
+        ingredienteService.updateIngredient(newIngrediente);
 
         return "redirect:/ingredienti";
     }
@@ -93,13 +93,13 @@ public class IngredienteController {
         // Prima di cancellare un ingrediente, devo togliere questi ingrediente da tutti
         // le pizze che ce l'hanno
 
-        Ingrediente ingredienteDaCancellare = ingredienteRepository.findById(id).get();
+        Ingrediente ingredienteDaCancellare = ingredienteService.findByIdIngredient(id).get();
 
         for (Pizza linkedPizza : ingredienteDaCancellare.getPizze()) {
             linkedPizza.getIngredienti().remove(ingredienteDaCancellare);
         }
 
-        ingredienteRepository.delete(ingredienteDaCancellare);
+        ingredienteService.deleteByIdIngredient(id);
         return "redirect:/ingredienti";
     }
 }
