@@ -13,17 +13,18 @@
       <div class="d-flex justify-content-between align-items-center">
         <h1 class="m-3">Elenco Pizze</h1>
         <a
+          sec:authorize="hasAuthority('admin')"
           class="btn btn-outline-secondary m-3 text-center"
           th:href="@{/pizze/create}"
           >Crea nuova pizza</a
         >
+        <h3 th:text="'Ciao ' + ${username}"></h3>
       </div>
       <section class="row">
         <div class="col-12"></div>
         <table class="table" th:if="${pizze.size() > 0}">
           <thead>
             <tr>
-              
               <th>Nome</th>
               <th>Descrizione</th>
               <th>Prezzo</th>
@@ -34,7 +35,6 @@
           </thead>
           <tbody>
             <tr th:each="pizza : ${pizze}" th:object="${pizza}">
-              
               <td>[[*{nome}]]</td>
               <td>[[*{descrizione}]]</td>
               <td>[[*{prezzo}]]</td>
@@ -45,14 +45,14 @@
                   >Info</a
                 >
               </td>
-              <td>
+              <td sec:authorize="hasAnyAuthority('admin','editor')">
                 <a
                   th:href="@{/pizze/edit/{id}(id=${pizza.id})}"
                   class="btn btn-outline btn-primary"
                   >Edita</a
                 >
               </td>
-              <td>
+              <td sec:authorize="hasAuthority('admin')">
                 <form
                   th:action="@{/pizze/delete/{id}(id=${pizza.id})}"
                   method="post"

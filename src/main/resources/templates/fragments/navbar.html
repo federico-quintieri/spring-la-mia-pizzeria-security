@@ -27,13 +27,27 @@
               <a class="nav-link" th:href="@{/}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " th:href="@{/pizze}">Pizze</a>
+              <a class="nav-link" th:href="@{/pizze}">Pizze</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " th:href="@{/ingredienti}">Ingredienti</a>
+              <a class="nav-link" th:href="@{/ingredienti}">Ingredienti</a>
             </li>
           </ul>
         </div>
+      </div>
+      <div class="user-info d-flex">
+        <div class="bg-white">
+          Utente loggato:
+          <span sec:authentication="name" class="fw-bold me-2"></span>
+        </div>
+        <div class="bg-white">
+          Ruolo utente:
+          <span
+            sec:authentication="principal.authorities"
+            class="fst-italic me-2"
+          ></span>
+        </div>
+        <a class="btn btn-primary" href="/logout">Logout</a>
       </div>
     </nav>
 

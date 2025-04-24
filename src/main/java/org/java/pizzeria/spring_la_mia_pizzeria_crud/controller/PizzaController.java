@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Offerta;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.model.Pizza;
-import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.IngredienteRepository;
-import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.OffertaRepository;
-import org.java.pizzeria.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.service.IngredienteService;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.service.OffertaService;
 import org.java.pizzeria.spring_la_mia_pizzeria_crud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,9 +35,10 @@ public class PizzaController {
     private OffertaService offertaService;
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Authentication authentication, Model model) {
         List<Pizza> pizze = pizzaService.findAllPizze(); // Prendo le pizze dal DB
         model.addAttribute("pizze", pizze);
+        model.addAttribute("username", authentication.getName());
         return "pizze/index";
     }
 
